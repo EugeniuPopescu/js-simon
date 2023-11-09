@@ -14,15 +14,22 @@ function randomNumber(min, max) {
 /********** calc **********/
 // mi creo l'array con 5 numeri random non ripetuti 
 let randomNumbers = [];
+let userNumbers = [];
 
 while (randomNumbers.length < 5) {
     numeroRandom = randomNumber(1, 99);
 
     if (!randomNumbers.includes(numeroRandom)) {
-        randomNumbers.push(numeroRandom);
+        Number(randomNumbers.push(numeroRandom));
     }
-
-
 }
 
 console.log(`numeri random: ${randomNumbers}`);
+
+
+while (userNumbers.length < 5) {
+    let number = Number(prompt(`Inserisci numero ${userNumbers}`));
+    userNumbers.push(number);
+
+    console.log(number);
+}
