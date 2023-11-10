@@ -9,13 +9,13 @@
 /********** calc **********/
 // mi creo l'array con 5 numeri random (non ripetuti) minim 1 e massimo 5
 let randomNumbers = getRandomNumbers(5, 1, 5);
-let userNumbers = [];
 let uguali = false;
 
 
 
 // inserisco i numeri random nel paragrafo
-document.querySelector('#random').innerHTML = `I tuoi numeri da ricordare sono ${randomNumbers}`;
+// metodo join mi stampa l'array con lo spazio che voglio tra di loro
+document.querySelector('#random').innerHTML = `I tuoi numeri da ricordare sono ${randomNumbers.join(' - ')}`;
 console.log(`numeri random: ${randomNumbers}`);
 
 
@@ -25,12 +25,19 @@ setTimeout(shatush, 5 * 1000)
 
 
 // ricchiamo la funzione
-setTimeout(remember, 6 * 1000)
+setTimeout( function() {
+    let userNumbers = getUserNumbers()
+    let confronto = okNumbers(userNumbers, randomNumbers)
+
+    // stampo in pagina i numeri indovinati
+    document.querySelector('#indovinato').innerHTML = `Hai indovinato ${confronto.length} numeri, e sono ${confronto.join(' - ')}`
+    
+}, 5.3 * 1000)
 
 
 
 
-/********** functions **********/
+/********** FUNCTIONS **********/
 // funzionche restituisce un numero casuale tra min e max 
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -42,10 +49,10 @@ function getRandomNumbers(quanti, min, max) {
     let numbers = [];
 
     while (numbers.length < quanti) {
-        numeroRandom = randomNumber(min, max);
+        let newRandomNumber = randomNumber(min, max);
         
-        if (!numbers.includes(numeroRandom)) {
-            Number(numbers.push(numeroRandom));
+        if (!numbers.includes(newRandomNumber)) {
+            Number(numbers.push(newRandomNumber));
         }
     }
 
@@ -58,18 +65,41 @@ function shatush() {
 }
 
 // faccio apparire i prompt dopo che tolgo il paragrafo
-function remember() {
+function getUserNumbers() {
+    let numbers = [];
+
     // ripeto 5 volte il prompt
-    while (userNumbers.length < 5) {
-        let number = Number(prompt(`Inserisci numero ${userNumbers}`));
-        userNumbers.push(number);
+    while (numbers.length < 5) {
 
-    }
-    console.log(`numeri inseriti dall'utente: ${userNumbers}`);
+        let number = Number(prompt(`Inserisci numero ${numbers}`));
 
-    for (let i = 0; i < randomNumbers.length; i++) {
-        if (randomNumbers[i] !== userNumbers[i]) {
-            console.log(`Posizione: ${i}`);
+        if (!numbers.includes(number)) {
+            numbers.push(number);
+        } else {
+            alert('Non iserire doppioni');
         }
+
     }
+    console.log(`numeri utente: ${numbers}`);
+
+    return numbers;
+}
+
+function okNumbers(array1, array2) {
+    console.log(array1);
+    console.log(array2);
+    // array di appoggio con il risultato
+    let result = [];
+
+    // per ogni elemento dell'array1 controllo l'arra2
+    for (let i = 0; i < array1.length; i++) {
+        const elemento = array1[i];
+
+        if (array2.includes(elemento)) {
+            result.push(elemento);
+        }
+        
+    }
+
+    return result;
 }
